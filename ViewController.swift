@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     
     
     let tipChoices:[Double] = [0.05,0.10,0.15,0.20,0.25]
@@ -25,25 +25,18 @@ class ViewController: UIViewController {
     
     @IBAction func calculateTipButtonPressed(sender: UIButton) {
         
-        pretipAmount.resignFirstResponder()
+        
         
         var preTipDouble = stringToDouble(pretipAmount.text)
     
         var tipIndex: Int? = tipPercent.selectedSegmentIndex
         
-        println(preTipDouble)
+        println("Pre-tip amount = \(preTipDouble)")
         
         var calculatedTip = preTipDouble * tipChoices[tipIndex!]
         
         var calculatedTotal = calculatedTip + preTipDouble
             
-        
-            
-        
-        
-    
-        
-       
         
        calculatedTipLabel.text = "$ " + doubleToString(calculatedTip)
        calculatedTotalLabel.text = "$ " + doubleToString(calculatedTotal)
@@ -51,11 +44,20 @@ class ViewController: UIViewController {
         
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
     
+        self.pretipAmount.endEditing(true)
+        
+        return false
+        
+    }
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.pretipAmount.delegate = self
        
     }
 
@@ -76,6 +78,7 @@ class ViewController: UIViewController {
         var stringFromDouble = "\(double)"
         return stringFromDouble
     }
+
 
 }
 
